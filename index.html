@@ -243,16 +243,38 @@
             100% { transform: translateX(-50%); }
         }
         @media (hover: none) and (pointer: coarse) {
-    #cursor,
-    #cursor-follower,
-    .custom-cursor {
-      display: none !important;
-    }
-    
-    body, a, button, input, select, textarea {
-      cursor: auto !important;
-    }
-  }
+            #cursor,
+            #cursor-follower,
+            .custom-cursor {
+                display: none !important;
+            }
+            
+            body, a, button, input, select, textarea {
+                cursor: auto !important;
+            }
+        }
+
+        /* ===== MOBILE FIXES: keep circle & testimonials original size, fix image grid ===== */
+        @media (max-width: 640px) {
+            /* Override the grid to use flex column and distribute height evenly */
+            .grid.grid-cols-1.md\:grid-cols-3 {
+                display: flex !important;
+                flex-direction: column !important;
+                height: 100% !important;
+                justify-content: space-between !important;
+            }
+            .edge-sq-card {
+                flex: 1 1 0 !important;
+                min-height: 0 !important;
+                aspect-ratio: auto !important;
+                transform: translateY(80px) !important; /* keep original transform */
+                opacity: 0 !important;
+            }
+            .edge-sq-card.active {
+                transform: translateY(0) !important;
+                opacity: 1 !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen relative bg-black selection:bg-brand selection:text-white">
