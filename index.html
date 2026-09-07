@@ -29,23 +29,19 @@
         }
 
         .bg-hero {
-            background-color: #f4166b;
-            color: #e7dccf;
+            background-color: #e7dccf;
+            color: #f4166b;
         }
 
         .text-hero {
-            color: #e7dccf;
-        }
-
-        .border-pink-stroke {
-            border: 2px solid #f4166b;
+            color: #f4166b;
         }
 
         /* Carousel styles */
         .carousel {
             position: relative;
             overflow: hidden;
-            border-radius: 8px;
+            border-radius: 0px;
         }
         .carousel-inner {
             display: flex;
@@ -58,6 +54,7 @@
             width: 100%;
             height: 500px;
             object-fit: cover;
+            border-radius: 0px;
         }
         @media (max-width: 768px) {
             .carousel-item img {
@@ -66,83 +63,36 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col overflow-x-hidden">
+<body class="min-h-screen flex flex-col overflow-x-hidden relative">
 
     <!-- Hero Section -->
-    <!-- Hero Section -->
-    <header class="bg-hero relative pt-8 pb-48 md:pb-56 px-6 md:px-12 flex flex-col justify-between min-h-[95vh]">
+    <header class="bg-hero relative pt-12 pb-56 md:pb-72 px-6 md:px-12 flex flex-col items-center">
         
-        <!-- Left Squiggly Line -->
-        <div class="absolute left-4 md:left-8 top-0 bottom-0 w-8 md:w-10 pointer-events-none z-0">
-            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 60 1000" fill="none" stroke="#b00f4e" stroke-width="3" stroke-linecap="round">
-                <path d="M 30 0 Q 60 125 30 250 T 30 500 T 30 750 T 30 1000" />
-            </svg>
-        </div>
-
-        <!-- Right Squiggly Line -->
-        <div class="absolute right-4 md:right-8 top-0 bottom-0 w-8 md:w-10 pointer-events-none z-0">
-            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 60 1000" fill="none" stroke="#b00f4e" stroke-width="3" stroke-linecap="round">
-                <path d="M 30 0 Q 0 125 30 250 T 30 500 T 30 750 T 30 1000" />
-            </svg>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="w-full flex justify-between items-center z-30 relative px-4">
+        <!-- Navigation / Title -->
+        <nav class="w-full flex justify-between items-center z-30 relative px-4 mb-8">
             <div class="w-16"></div>
             <div class="text-center tracking-wide flex items-center justify-center">
-                <span class="font-normal text-2xl md:text-3xl text-hero">chiemsee</span>
-                <span class="font-fredoka text-2xl md:text-3xl uppercase text-hero ml-1">KITCHEN</span>
+                <span class="font-normal text-3xl md:text-5xl text-hero">chiemsee</span>
+                <span class="font-fredoka text-3xl md:text-5xl uppercase text-hero ml-2">KITCHEN</span>
             </div>
             <div class="w-16"></div>
         </nav>
 
-        <!-- SVG Container -->
-        <div class="w-full text-center mt-auto mb-0 transform translate-y-12 md:translate-y-20 flex justify-center items-center z-10 relative">
-            <svg width="580" height="380" viewBox="0 0 500 320" fill="none" stroke="#a80844" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M 50 270 L 450 270" stroke-width="6" />
-                <ellipse cx="250" cy="265" rx="90" ry="14" stroke-width="5" />
-                <path d="M 190 265 C 190 290 310 290 310 265" fill="#a80844" fill-opacity="0.2" stroke-width="4" />
-                <path d="M 225 240 Q 210 215 230 195 T 218 170" stroke-width="3.5" />
-                <path d="M 250 235 Q 262 210 245 185 T 258 160" stroke-width="3.5" />
-                <path d="M 275 240 Q 288 215 270 195 T 282 170" stroke-width="3.5" />
-                <circle cx="250" cy="95" r="48" stroke-width="5" />
-                <path d="M 224 93 Q 233 83 240 93" stroke-width="4.5" />
-                <path d="M 260 93 Q 267 83 276 93" stroke-width="4.5" />
-                <path d="M 236 115 Q 250 130 264 115" stroke-width="4.5" fill="#a80844" fill-opacity="0.15" />
-                <path d="M 212 78 C 205 52 238 40 250 44 C 262 40 295 52 288 78" stroke-width="4.5" />
-                <path d="M 206 135 C 160 158 135 205 120 270" stroke-width="5" />
-                <path d="M 294 135 C 340 158 365 205 380 270" stroke-width="5" />
-                <path d="M 165 185 C 160 220 192 232 210 210" stroke-width="4.5" />
-                <path d="M 210 210 L 225 185" stroke-width="4" />
-                <path d="M 220 180 L 232 190 M 223 176 L 235 186 M 228 172 L 240 182" stroke-width="3" />
-                <path d="M 335 185 C 340 220 308 232 290 210" stroke-width="4.5" />
-                <path d="M 290 210 L 275 185" stroke-width="4" />
-                <ellipse cx="270" cy="178" rx="7" ry="11" transform="rotate(-30 270 178)" fill="#a80844" fill-opacity="0.3" stroke-width="3" />
-            </svg>
-        </div>
-
-        <!-- Tagline Text -->
-        <div class="w-full text-center z-10 relative mt-16 px-4">
-            <p class="text-hero text-lg md:text-2xl font-medium leading-relaxed tracking-wide">
-                Regionale Küche mit Herz. Kommen Sie spontan vorbei und genießen Sie hausgemachtes Soulfood in ungezwungener Atmosphäre.
-            </p>
-        </div>
-
-        <!-- Overlapping Image -->
-        <div class="absolute left-1/2 transform -translate-x-1/2 -bottom-72 md:-bottom-80 w-4/5 md:w-3/4 z-20">
+        <!-- Lowered Hero Image -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 -bottom-48 md:-bottom-60 w-4/5 md:w-3/4 z-20">
             <img src="images/1.jpeg"
                  alt="Chiemsee Kitchen Dish" 
-                 class="w-full h-72 md:h-[28rem] object-cover border-pink-stroke">
+                 class="w-full h-72 md:h-[28rem] object-cover shadow-sm">
         </div>
 
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-80 md:pt-96 pb-20 px-4 md:px-8">
+    <main class="flex-grow pt-60 md:pt-72 pb-20 z-10 relative">
         
         <!-- Section 1: Paragraph -->
-        <section class="text-center py-4">
-            <p class="text-[#f4166b] text-lg md:text-xl leading-relaxed px-4 max-w-2xl mx-auto">
+        <section class="text-center py-4 px-4">
+            <p class="text-[#f4166b] text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
                 Bei uns treffen traditionelle bayerische Rezepte auf moderne Leichtigkeit. 
                 Jedes Gericht erzählt eine Geschichte – von der sorgfältigen Auswahl 
                 regionaler Zutaten aus dem Chiemgau bis zum kreativen Tellerrand. 
@@ -150,11 +100,15 @@
             </p>
         </section>
 
-        <!-- Divider -->
-        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+        <!-- Wavy Section Divider (Full Edge-to-Edge Width) -->
+        <div class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] my-12 overflow-hidden leading-none">
+            <svg class="w-full h-8 md:h-10" viewBox="0 0 1200 40" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,20 Q150,0 300,20 T600,20 T900,20 T1200,20" stroke="#f4166b" stroke-width="4" opacity="0.6"/>
+            </svg>
+        </div>
 
         <!-- Section 2: Philosophie – Image LEFT, Text RIGHT -->
-        <section class="flex flex-col md:flex-row items-center gap-8 md:gap-12 py-4">
+        <section class="flex flex-col md:flex-row items-center gap-8 md:gap-12 py-4 px-4 md:px-8">
             
             <!-- Left Carousel -->
             <div class="flex-1 w-full md:max-w-lg mx-auto md:mx-0">
@@ -184,31 +138,14 @@
                     Unsere Zutaten stammen direkt von regionalen Erzeugern rund um den Chiemsee, die wir persönlich kennen. 
                     So entsteht authentischer Geschmack mit tiefem Respekt vor der Natur.
                 </p>
-                <!-- Detailed Wine & Glass Line Art -->
-                <div class="mt-6 flex justify-center md:justify-end">
-                    <svg width="180" height="90" viewBox="0 0 180 90" fill="none" stroke="#f4166b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Wine Bottle -->
-                        <path d="M 45 85 L 45 40 C 45 32 52 25 55 20 L 55 10 L 65 10 L 65 20 C 68 25 75 32 75 40 L 75 85 Z" />
-                        <line x1="55" y1="10" x2="65" y2="10" stroke-width="3" />
-                        <rect x="49" y="48" width="22" height="25" rx="2" stroke-width="2" />
-                        <!-- Wine Glass -->
-                        <path d="M 110 25 C 110 50 140 50 140 25 Z" />
-                        <line x1="125" y1="50" x2="125" y2="80" stroke-width="3" />
-                        <line x1="110" y1="80" x2="140" y2="80" stroke-width="3" />
-                        <path d="M 114 36 C 120 40 130 40 136 36" stroke-width="1.8" stroke-dasharray="2 2" />
-                        <!-- Sparkles -->
-                        <path d="M 92 30 L 92 38 M 88 34 L 96 34" stroke-width="2" />
-                        <path d="M 152 20 L 152 26 M 149 23 L 155 23" stroke-width="2" />
-                    </svg>
-                </div>
             </div>
         </section>
 
-        <!-- Divider -->
-        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+        <!-- Divider (Full Edge-to-Edge Straight Width) -->
+        <hr class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] border-t-4 border-[#f4166b] my-12 opacity-60">
 
         <!-- Section 3: KÜCHE – Image RIGHT, Text LEFT -->
-        <section class="flex flex-col md:flex-row items-center gap-8 md:gap-12 py-4">
+        <section class="flex flex-col md:flex-row items-center gap-8 md:gap-12 py-4 px-4 md:px-8">
             
             <!-- Left Text -->
             <div class="flex-1 text-center md:text-left px-4 order-2 md:order-1">
@@ -218,21 +155,6 @@
                 <p class="text-[#f4166b] text-base md:text-lg font-semibold uppercase leading-relaxed max-w-xl mx-auto md:mx-0">
                     UNSERE KÜCHE IST DAS HERZ DES HAUSES. HIER ENTSTEHEN MIT LEIDENSCHAFT UND HANDWERKLICHEM KÖNNEN GERICHTE, DIE ERINNERUNGEN SCHAFFEN. JEDER HANDGRIFF SITZT, JEDE ZUTAT WIRD ZELEBRIERT – FÜR EIN GESCHMACKSERLEBNIS DER BESONDEREN ART.
                 </p>
-                <!-- Detailed Chef Hat & Utensils Line Art -->
-                <div class="mt-6 flex justify-center md:justify-start">
-                    <svg width="180" height="90" viewBox="0 0 180 90" fill="none" stroke="#f4166b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Chef Hat -->
-                        <path d="M 60 55 C 45 55 42 40 52 32 C 45 22 60 10 75 18 C 85 8 105 8 115 18 C 130 10 145 22 138 32 C 148 40 145 55 130 55 Z" />
-                        <rect x="62" y="55" width="66" height="18" rx="3" stroke-width="2.5" />
-                        <line x1="72" y1="58" x2="72" y2="70" stroke-width="1.8" />
-                        <line x1="95" y1="58" x2="95" y2="70" stroke-width="1.8" />
-                        <line x1="118" y1="58" x2="118" y2="70" stroke-width="1.8" />
-                        <!-- Crossed Whisk & Spatula Behind -->
-                        <path d="M 25 20 L 50 45 M 25 20 C 18 25 28 35 33 30" stroke-width="2" />
-                        <path d="M 165 20 L 140 45" stroke-width="2" />
-                        <rect x="155" y="12" width="12" height="18" rx="2" transform="rotate(45 155 12)" stroke-width="2" />
-                    </svg>
-                </div>
             </div>
 
             <!-- Right Carousel -->
@@ -253,11 +175,11 @@
             </div>
         </section>
 
-        <!-- Divider -->
-        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+        <!-- Divider (Full Edge-to-Edge Straight Width) -->
+        <hr class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] border-t-4 border-[#f4166b] my-12 opacity-60">
 
-        <!-- Section 4: EVENTS SECTION (Date Announcement Style) -->
-        <section id="events" class="py-6 px-2 md:px-4">
+        <!-- Section 4: EVENTS SECTION -->
+        <section id="events" class="py-6 px-4 md:px-8">
             <div class="text-center mb-12">
                 <h2 class="font-fredoka text-4xl md:text-5xl uppercase tracking-tight text-[#f4166b]">EVENTS & TERMINE</h2>
                 <p class="text-[#f4166b] font-medium text-lg mt-3 max-w-xl mx-auto">AKTUELLE TERMINE UND BESONDERE HIGHLIGHTS AM CHIEMSEE</p>
@@ -266,7 +188,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-[#f4166b]">
                 
                 <!-- Event 1 -->
-                <div class="p-6 rounded-lg bg-[#e7dccf] flex flex-col justify-between">
+                <div class="p-6 bg-[#e7dccf] flex flex-col justify-between">
                     <div>
                         <h3 class="font-fredoka text-2xl uppercase mb-2">DIE KITCHEN MACHT SOMMERPAUSE</h3>
                         <p class="text-sm font-semibold uppercase leading-relaxed mb-4">
@@ -277,7 +199,7 @@
                 </div>
 
                 <!-- Event 2 -->
-                <div class="p-6 rounded-lg bg-[#e7dccf] flex flex-col justify-between">
+                <div class="p-6 bg-[#e7dccf] flex flex-col justify-between">
                     <div>
                         <h3 class="font-fredoka text-2xl uppercase mb-2">HERBST-SPECIAL & WEINABEND</h3>
                         <p class="text-sm font-semibold uppercase leading-relaxed mb-4">
@@ -288,7 +210,7 @@
                 </div>
 
                 <!-- Event 3 -->
-                <div class="p-6 rounded-lg bg-[#e7dccf] flex flex-col justify-between">
+                <div class="p-6 bg-[#e7dccf] flex flex-col justify-between">
                     <div>
                         <h3 class="font-fredoka text-2xl uppercase mb-2">CHIEMGAUER BBQ NIGHT</h3>
                         <p class="text-sm font-semibold uppercase leading-relaxed mb-4">
@@ -301,36 +223,37 @@
             </div>
         </section>
 
-        <!-- Divider -->
-        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+        <!-- Divider (Full Edge-to-Edge Straight Width) -->
+        <hr class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] border-t-4 border-[#f4166b] my-12 opacity-60">
 
         <!-- Section 5: GALLERY WITH FOLLOW BUTTON -->
-        <section class="py-8 px-4 text-center">
+        <section class="py-8 px-4 md:px-8 text-center">
             
-            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-8">
-    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/8.jpeg')">
-        <img src="images/8.jpeg" alt="Gallery Image 1" class="w-full h-32 md:h-40 object-cover">
-    </div>
-    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/9.jpeg')">
-        <img src="images/9.jpeg" alt="Gallery Image 2" class="w-full h-32 md:h-40 object-cover">
-    </div>
-    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/10.jpeg')">
-        <img src="images/10.jpeg" alt="Gallery Image 3" class="w-full h-32 md:h-40 object-cover">
-    </div>
-    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/11.jpeg')">
-        <img src="images/11.jpeg" alt="Gallery Image 4" class="w-full h-32 md:h-40 object-cover">
-    </div>
-    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/12.jpeg')">
-        <img src="images/12.jpeg" alt="Gallery Image 5" class="w-full h-32 md:h-40 object-cover">
-    </div>
-    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80')">
-        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80" alt="Gallery Image 6" class="w-full h-32 md:h-40 object-cover">
-    </div>
-</div>
+            <!-- Masonry Grid Layout -->
+            <div class="columns-1 sm:columns-2 md:columns-3 gap-6 space-y-6 mb-12">
+                <div class="break-inside-avoid overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-[1.02]" onclick="openLightbox('images/8.jpeg')">
+                    <img src="images/8.jpeg" alt="Gallery Image 1" class="w-full h-auto object-cover block">
+                </div>
+                <div class="break-inside-avoid overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-[1.02]" onclick="openLightbox('images/9.jpeg')">
+                    <img src="images/9.jpeg" alt="Gallery Image 2" class="w-full h-auto object-cover block">
+                </div>
+                <div class="break-inside-avoid overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-[1.02]" onclick="openLightbox('images/10.jpeg')">
+                    <img src="images/10.jpeg" alt="Gallery Image 3" class="w-full h-auto object-cover block">
+                </div>
+                <div class="break-inside-avoid overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-[1.02]" onclick="openLightbox('images/11.jpeg')">
+                    <img src="images/11.jpeg" alt="Gallery Image 4" class="w-full h-auto object-cover block">
+                </div>
+                <div class="break-inside-avoid overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-[1.02]" onclick="openLightbox('images/12.jpeg')">
+                    <img src="images/12.jpeg" alt="Gallery Image 5" class="w-full h-auto object-cover block">
+                </div>
+                <div class="break-inside-avoid overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-[1.02]" onclick="openLightbox('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80')">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" alt="Gallery Image 6" class="w-full h-auto object-cover block">
+                </div>
+            </div>
 
             <!-- Follow Us Button -->
-            <div class="mt-6">
-                <a href="https://www.instagram.com/chiemsee_kitchen/?hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#f4166b] text-[#e7dccf] font-fredoka uppercase text-lg px-8 py-3 rounded-full hover:opacity-90 transition-opacity shadow-md">
+            <div class="mt-8">
+                <a href="https://www.instagram.com/chiemsee_kitchen/?hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#f4166b] text-[#e7dccf] font-fredoka uppercase text-lg px-8 py-3 hover:opacity-90 transition-opacity shadow-md">
                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                     </svg>
@@ -342,7 +265,7 @@
             <div id="image-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex justify-center items-center p-4" onclick="closeLightbox()">
                 <div class="relative max-w-4xl w-full flex justify-center" onclick="event.stopPropagation()">
                     <button class="absolute -top-10 right-0 text-white text-3xl font-bold hover:opacity-80" onclick="closeLightbox()">&times;</button>
-                    <img id="modal-image" src="" alt="Pop-up Image" class="max-h-[85vh] w-auto max-w-full rounded border-2 border-[#f4166b] object-contain">
+                    <img id="modal-image" src="" alt="Pop-up Image" class="max-h-[85vh] w-auto max-w-full object-contain">
                 </div>
             </div>
 
@@ -351,7 +274,7 @@
     </main>
 
     <!-- Fully Flush Edge-to-Edge Footer with Wave at Absolute Bottom -->
-    <footer class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-[#f4166b] text-[#e7dccf] pt-12 pb-0 mt-12 mb-0 overflow-hidden shadow-[0_50vh_0_50vh_#f4166b] flex flex-col justify-between">
+    <footer class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-[#f4166b] text-[#e7dccf] pt-12 pb-0 mt-12 mb-0 overflow-hidden shadow-[0_50vh_0_50vh_#f4166b] flex flex-col justify-between z-10">
         
         <!-- 3 Columns Layout -->
         <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-6 md:px-12 mb-8">
