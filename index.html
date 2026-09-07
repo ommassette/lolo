@@ -4,852 +4,425 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chiemsee Kitchen</title>
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: '#ff2e7e',
-                    }
-                }
-            }
-        }
-    </script>
+    
+    <!-- HTMX CDN -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
     <style>
         body {
-            background-color: #000000;
-            color: #ffffff;
-            overflow-x: hidden;
-            cursor: none;
-            font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-            font-weight: 300;
+            background-color: #e7dccf;
+            color: #f4166b;
+            font-family: 'Montserrat', sans-serif;
         }
-
-        #custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 12px;
-            height: 12px;
-            background-color: #ff2e7e;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-        }
-
-        #cursor-follower {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 36px;
-            height: 36px;
-            border: 1px solid rgba(255, 46, 126, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out, opacity 0.2s ease;
-        }
-
-        body.hovering-interactive #custom-cursor {
-            width: 130px;
-            height: 130px;
-            background-color: #ff2e7e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        body.hovering-interactive #custom-cursor::after {
-            content: attr(data-cursor-text);
-            color: #ffffff;
-            font-size: 11px;
+        
+        .font-fredoka {
+            font-family: 'Fredoka', cursive, sans-serif;
             font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
         }
 
-        body.hovering-interactive #cursor-follower {
-            opacity: 0;
+        .bg-hero {
+            background-color: #f4166b;
+            color: #e7dccf;
         }
 
-        .glow-shadow {
-            box-shadow: 0 0 60px rgba(255, 46, 126, 0.5), 0 0 120px rgba(255, 46, 126, 0.3);
-            animation: pulse-glow 4s ease-in-out infinite alternate;
+        .text-hero {
+            color: #e7dccf;
         }
 
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 45px rgba(255, 46, 126, 0.4), 0 0 90px rgba(255, 46, 126, 0.2); }
-            100% { box-shadow: 0 0 80px rgba(255, 46, 126, 0.65), 0 0 150px rgba(255, 46, 126, 0.4); }
+        .border-pink-stroke {
+            border: 2px solid #f4166b;
         }
 
-        .orbit-container {
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .perspective-stage {
-            perspective: 800px;
-            perspective-origin: 50% 50%;
-        }
-
-        .flying-testimonial {
-            position: absolute;
-            width: 320px;
-            text-align: center;
-            color: #ffffff;
-            font-weight: 300;
-            opacity: 0;
-            pointer-events: none;
-            animation: flyToBack 12s linear infinite;
-        }
-
-        @keyframes flyToBack {
-            0% {
-                transform: translate3d(var(--tx-start), var(--ty-start), 600px) scale(2.2);
-                opacity: 0;
-            }
-            15% { opacity: 0.95; }
-            85% { opacity: 0.8; }
-            100% {
-                transform: translate3d(var(--tx-end), var(--ty-end), -1200px) scale(0.15);
-                opacity: 0;
-            }
-        }
-
-        .ft-1 { --tx-start: -380px; --ty-start: -260px; --tx-end: -80px; --ty-end: -50px; animation-delay: 0s; }
-        .ft-2 { --tx-start: 380px;  --ty-start: -220px; --tx-end: 80px;  --ty-end: -40px; animation-delay: 3s; }
-        .ft-3 { --tx-start: -400px; --ty-start: 260px;  --tx-end: -90px; --ty-end: 50px;  animation-delay: 6s; }
-        .ft-4 { --tx-start: 390px;  --ty-start: 230px;  --tx-end: 85px;  --ty-end: 45px;  animation-delay: 9s; }
-
-        .spa-section {
-            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-        }
-
-        .fade-in-slow {
-            animation: fadeInSlow 1.5s ease-out forwards;
-        }
-
-        @keyframes fadeInSlow {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .content-reveal {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.8s ease-in-out, opacity 0.8s ease-in-out, margin-top 0.4s ease;
-        }
-
-        .content-reveal.open {
-            max-height: 300px;
-            opacity: 1;
-            margin-top: 1rem;
-        }
-
-        .edge-sq-card {
-            transform: translateY(80px);
-            opacity: 0;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
-        }
-
-        .edge-sq-card.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .menu-row {
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .menu-list:hover .menu-row:not(:hover) {
-            opacity: 0.2;
-        }
-
-        .menu-row:hover {
-            transform: translateX(12px);
-        }
-
-        .menu-row .menu-title {
+        /* Carousel styles */
+        .carousel {
             position: relative;
-            display: inline-block;
+            overflow: hidden;
+            border-radius: 8px;
         }
-
-        .menu-row .menu-title::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0%;
-            height: 1px;
-            background-color: #ff2e7e;
-            transition: width 0.4s ease;
-        }
-
-        .menu-row:hover .menu-title::after {
-            width: 100%;
-        }
-
-        .menu-reveal-item {
-            opacity: 0;
-            transform: translateY(25px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .menu-reveal-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .event-pink-card {
-            background-color: #ff2e7e;
-            color: #ffffff;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .event-pink-card.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .infinite-track-container {
+        .carousel-inner {
             display: flex;
-            width: max-content;
+            transition: transform 0.5s ease;
         }
-
-        .infinite-track-container.animating {
-            animation: infiniteLoop 30s linear infinite;
+        .carousel-item {
+            min-width: 100%;
         }
-
-        .infinite-track-container.animating:hover {
-            animation-play-state: paused;
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
         }
-
-        @keyframes infiniteLoop {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        @media (hover: none) and (pointer: coarse) {
-            #cursor,
-            #cursor-follower,
-            .custom-cursor {
-                display: none !important;
-            }
-            
-            body, a, button, input, select, textarea {
-                cursor: auto !important;
-            }
-        }
-
-        /* ===== MOBILE FIXES: keep circle & testimonials original size, fix image grid ===== */
-        @media (max-width: 640px) {
-            /* Override the grid to use flex column and distribute height evenly */
-            .grid.grid-cols-1.md\:grid-cols-3 {
-                display: flex !important;
-                flex-direction: column !important;
-                height: 100% !important;
-                justify-content: space-between !important;
-            }
-            .edge-sq-card {
-                flex: 1 1 0 !important;
-                min-height: 0 !important;
-                aspect-ratio: auto !important;
-                transform: translateY(80px) !important; /* keep original transform */
-                opacity: 0 !important;
-            }
-            .edge-sq-card.active {
-                transform: translateY(0) !important;
-                opacity: 1 !important;
+        @media (max-width: 768px) {
+            .carousel-item img {
+                height: 300px;
             }
         }
     </style>
 </head>
-<body class="min-h-screen relative bg-black selection:bg-brand selection:text-white">
+<body class="min-h-screen flex flex-col overflow-x-hidden">
 
-    <div id="custom-cursor" data-cursor-text="SPEISEKARTE"></div>
-    <div id="cursor-follower"></div>
-
-    <div class="fixed top-2 left-2 z-50">
-        <button id="brand-logo" class="text-xl font-bold tracking-wider text-white uppercase focus:outline-none text-left">
-            CHIEMSEE KITCHEN<span class="text-brand">.</span>
-        </button>
-    </div>
-
-    <section id="hero-section" class="spa-section relative z-10 w-full h-screen flex items-center justify-center perspective-stage overflow-hidden">
+    <!-- Hero Section -->
+    <header class="bg-hero relative pt-8 pb-48 md:pb-56 px-6 md:px-12 flex flex-col justify-between min-h-[95vh]">
         
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <div class="flying-testimonial ft-1">
-                <p class="text-sm leading-relaxed mb-1">"Die Aromen bei Chiemsee Kitchen sind unerreicht. Ein unvergessliches Kulinarik-Erlebnis."</p>
-                <p class="text-xs text-zinc-400">— Markus V.</p>
-            </div>
-            <div class="flying-testimonial ft-2">
-                <p class="text-sm leading-relaxed mb-1">"Absolute Perfektion. Die dynamische Speisekarte überrascht uns immer wieder."</p>
-                <p class="text-xs text-zinc-400">— Elena R.</p>
-            </div>
-            <div class="flying-testimonial ft-3">
-                <p class="text-sm leading-relaxed mb-1">"Ein Meisterwerk der Kochkunst. Ohne Zweifel die beste Küche der Stadt."</p>
-                <p class="text-xs text-zinc-400">— David K.</p>
-            </div>
-            <div class="flying-testimonial ft-4">
-                <p class="text-sm leading-relaxed mb-1">"Innovativ, elegant und köstlich. Jedes Gericht erzählt seine eigene Geschichte."</p>
-                <p class="text-xs text-zinc-400">— Sarah L.</p>
-            </div>
+        <!-- Left Squiggly Line -->
+        <div class="absolute left-4 md:left-12 top-0 bottom-0 w-12 pointer-events-none z-0">
+            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 60 1000" fill="none" stroke="#e7dccf" stroke-width="6" stroke-linecap="round">
+                <path d="M 30 0 Q 60 125 30 250 T 30 500 T 30 750 T 30 1000" />
+            </svg>
         </div>
 
-        <div class="relative z-10 flex items-center justify-center">
-            <div class="absolute w-[500px] h-[500px] sm:w-[620px] sm:h-[620px] orbit-container pointer-events-none">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-brand/30"></div>
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-brand/20"></div>
-                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-brand/35"></div>
-                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-brand/25"></div>
-                <div class="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-brand/20"></div>
-                <div class="absolute bottom-1/4 right-1/4 w-3 h-3 rounded-full bg-brand/30"></div>
-            </div>
-
-            <div 
-                id="menu-circle"
-                class="relative w-80 h-80 sm:w-[420px] sm:h-[420px] rounded-full border-2 border-brand/60 glow-shadow overflow-hidden flex items-center justify-center bg-black block cursor-pointer"
-            >
-                <img 
-                    src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" 
-                    alt="Chiemsee Kitchen Kulinarisches Gericht" 
-                    class="w-full h-full object-cover"
-                />
-            </div>
+        <!-- Right Squiggly Line -->
+        <div class="absolute right-0 top-0 bottom-0 w-8 pointer-events-none z-0">
+            <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 60 1000" fill="none" stroke="#e7dccf" stroke-width="6" stroke-linecap="round">
+                <path d="M 30 0 Q 0 125 30 250 T 30 500 T 30 750 T 30 1000" />
+            </svg>
         </div>
 
-        <button id="cookie-icon-btn" class="absolute bottom-6 right-6 z-40 w-12 h-12 bg-zinc-950 border border-brand/50 rounded-full flex items-center justify-center text-brand hover:border-brand hover:scale-110 transition-all focus:outline-none" data-cursor-text="COOKIES">
-            <i class="bi bi-cookie text-2xl leading-none"></i>
-        </button>
+        <!-- Navigation -->
+        <nav class="w-full flex justify-between items-center z-30 relative pr-8">
+            <div class="w-16"></div>
+            <div class="text-center tracking-wide flex items-center justify-center">
+                <span class="font-normal text-2xl md:text-3xl text-hero">chiemsee</span>
+                <span class="font-fredoka text-2xl md:text-3xl uppercase text-hero ml-1">KITCHEN</span>
+            </div>
+            <div class="w-16 text-right">
+                <a href="#events" class="font-medium text-lg text-hero hover:opacity-80 transition-opacity">Events</a>
+            </div>
+        </nav>
 
-        <div id="cookie-banner" class="hidden absolute bottom-6 right-6 z-50 bg-zinc-950 border border-zinc-800 p-5 max-w-xs sm:max-w-sm text-left shadow-2xl flex flex-col gap-3 transition-opacity duration-300 opacity-0">
-            <h5 class="text-xs font-bold uppercase tracking-[0.2em] text-brand">COOKIE-EINSTELLUNGEN</h5>
-            <p class="text-xs text-zinc-400 leading-relaxed font-light">
-                Wir nutzen Cookies, um Ihr Erlebnis auf unserer Website zu optimieren. Sie können Ihre Präferenzen anpassen oder alle akzeptieren.
+        <!-- SVG Container -->
+        <div class="w-full text-center mt-auto mb-0 transform translate-y-12 md:translate-y-20 flex justify-center items-center z-10 relative">
+            <svg width="580" height="380" viewBox="0 0 500 320" fill="none" stroke="#a80844" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M 50 270 L 450 270" stroke-width="6" />
+                <ellipse cx="250" cy="265" rx="90" ry="14" stroke-width="5" />
+                <path d="M 190 265 C 190 290 310 290 310 265" fill="#a80844" fill-opacity="0.2" stroke-width="4" />
+                <path d="M 225 240 Q 210 215 230 195 T 218 170" stroke-width="3.5" />
+                <path d="M 250 235 Q 262 210 245 185 T 258 160" stroke-width="3.5" />
+                <path d="M 275 240 Q 288 215 270 195 T 282 170" stroke-width="3.5" />
+                <circle cx="250" cy="95" r="48" stroke-width="5" />
+                <path d="M 224 93 Q 233 83 240 93" stroke-width="4.5" />
+                <path d="M 260 93 Q 267 83 276 93" stroke-width="4.5" />
+                <path d="M 236 115 Q 250 130 264 115" stroke-width="4.5" fill="#a80844" fill-opacity="0.15" />
+                <path d="M 212 78 C 205 52 238 40 250 44 C 262 40 295 52 288 78" stroke-width="4.5" />
+                <path d="M 206 135 C 160 158 135 205 120 270" stroke-width="5" />
+                <path d="M 294 135 C 340 158 365 205 380 270" stroke-width="5" />
+                <path d="M 165 185 C 160 220 192 232 210 210" stroke-width="4.5" />
+                <path d="M 210 210 L 225 185" stroke-width="4" />
+                <path d="M 220 180 L 232 190 M 223 176 L 235 186 M 228 172 L 240 182" stroke-width="3" />
+                <path d="M 335 185 C 340 220 308 232 290 210" stroke-width="4.5" />
+                <path d="M 290 210 L 275 185" stroke-width="4" />
+                <ellipse cx="270" cy="178" rx="7" ry="11" transform="rotate(-30 270 178)" fill="#a80844" fill-opacity="0.3" stroke-width="3" />
+            </svg>
+        </div>
+
+        <!-- Tagline Text -->
+        <div class="w-full text-center z-10 relative mt-16 px-4">
+            <p class="text-hero text-lg md:text-2xl font-medium leading-relaxed tracking-wide">
+                Regionale Küche mit Herz. Kommen Sie spontan vorbei und genießen Sie hausgemachtes Soulfood in ungezwungener Atmosphäre.
             </p>
-            <div class="flex items-center gap-3 pt-1">
-                <button id="accept-cookies" class="bg-brand text-white text-[11px] font-bold uppercase tracking-wider px-4 py-2 hover:bg-opacity-90 transition-opacity focus:outline-none" data-cursor-text="ZUSTIMMEN">
-                    AKZEPTIEREN
-                </button>
-                <button id="settings-cookies" class="border border-zinc-700 text-zinc-300 text-[11px] font-bold uppercase tracking-wider px-4 py-2 hover:border-brand hover:text-brand transition-colors focus:outline-none" data-cursor-text="ANPASSEN">
-                    EINSTELLUNGEN
-                </button>
-            </div>
         </div>
-    </section>
 
-    <section id="main-section" class="spa-section hidden fixed inset-0 z-20 bg-black overflow-y-auto opacity-0 pointer-events-none">
-        <div class="min-h-screen flex flex-col justify-between px-6 py-12">
-            <div></div>
+        <!-- Overlapping Image -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 -bottom-72 md:-bottom-80 w-4/5 md:w-3/4 z-20">
+            <img src="images/1.jpeg"
+                 alt="Chiemsee Kitchen Dish" 
+                 class="w-full h-72 md:h-[28rem] object-cover border-pink-stroke">
+        </div>
 
-            <div class="max-w-3xl mx-auto text-center px-4 my-12">
-                <p id="main-quote" class="text-lg sm:text-2xl leading-relaxed font-light text-zinc-100 opacity-0">
-                    Regionale Küche mit Herz. Kommen Sie spontan vorbei und genießen Sie hausgemachtes Soulfood in ungezwungener Atmosphäre.
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-80 md:pt-96 pb-20 px-4 md:px-8">
+        
+        <!-- Section 1: Paragraph -->
+        <section class="text-center py-4">
+            <p class="text-[#f4166b] text-lg md:text-xl leading-relaxed px-4 max-w-2xl mx-auto">
+                Bei uns treffen traditionelle bayerische Rezepte auf moderne Leichtigkeit. 
+                Jedes Gericht erzählt eine Geschichte – von der sorgfältigen Auswahl 
+                regionaler Zutaten aus dem Chiemgau bis zum kreativen Tellerrand. 
+                Kommen Sie vorbei und erleben Sie echten Geschmack.
+            </p>
+        </section>
+
+        <!-- Divider -->
+        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+
+        <!-- Section 2: Philosophie – Image LEFT, Text RIGHT -->
+        <section class="flex flex-col md:flex-row items-center gap-8 md:gap-12 py-4">
+            
+            <!-- Left Carousel -->
+            <div class="flex-1 w-full md:max-w-lg mx-auto md:mx-0">
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item">
+                            <img src="images/2.jpeg" alt="Frische Zutaten">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/3.jpeg" alt="Kochkunst">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/4.jpeg" alt="Genussmoment">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Text -->
+            <div class="flex-1 text-center md:text-right px-4">
+                <h2 class="font-fredoka text-4xl md:text-5xl text-[#f4166b] mb-4">
+                    PHILOSOPHIE
+                </h2>
+                <p class="text-[#f4166b] text-base md:text-lg font-semibold uppercase leading-relaxed max-w-xl mx-auto md:mx-0 md:ml-auto">
+                    Wir glauben an ehrliche Küche – unkompliziert, bodenständig und voller Überraschungen. 
+                    Jeder Teller ist eine Einladung, den Moment zu genießen. 
+                    Unsere Zutaten stammen direkt von regionalen Erzeugern rund um den Chiemsee, die wir persönlich kennen. 
+                    So entsteht authentischer Geschmack mit tiefem Respekt vor der Natur.
                 </p>
-            </div>
-
-            <div id="three-titles" class="w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-start opacity-0 pt-8 pb-16">
-                <div class="text-left">
-                    <button 
-                        data-target="content-philosophie" 
-                        class="title-btn text-2xl sm:text-3xl font-bold text-brand uppercase tracking-wider hover:opacity-80 transition-opacity focus:outline-none"
-                        data-cursor-text="ÖFFNEN"
-                    >
-                        PHILOSOPHIE
-                    </button>
-                    <div id="content-philosophie" class="content-reveal text-left text-zinc-400 text-sm sm:text-base leading-relaxed">
-                        Wir glauben an echte Handwerkskunst und die Magie frischer, regionaler Zutaten. Jedes Gericht entsteht mit Leidenschaft, Respekt vor der Natur und dem Ziel, Ihnen ein Lächeln auf die Lippen zu zaubern.
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <button 
-                        data-target="content-kuche" 
-                        class="title-btn text-2xl sm:text-3xl font-bold text-brand uppercase tracking-wider hover:opacity-80 transition-opacity focus:outline-none"
-                        data-cursor-text="ÖFFNEN"
-                    >
-                        KÜCHE
-                    </button>
-                    <div id="content-kuche" class="content-reveal text-center text-zinc-400 text-sm sm:text-base leading-relaxed">
-                        Moderne Interpretation traditioneller Klassiker. Von herzhaftem Soulfood bis hin zu feinen saisonalen Spezialitäten – unsere Küche vereint Heimatliebe mit kreativen kulinarischen Akzenten.
-                    </div>
-                </div>
-
-                <div class="text-right">
-                    <button 
-                        data-target="content-atmosphare" 
-                        class="title-btn text-2xl sm:text-3xl font-bold text-brand uppercase tracking-wider hover:opacity-80 transition-opacity focus:outline-none"
-                        data-cursor-text="ÖFFNEN"
-                    >
-                        ATMOSPHÄRE
-                    </button>
-                    <div id="content-atmosphare" class="content-reveal text-right text-zinc-400 text-sm sm:text-base leading-relaxed">
-                        Ein Ort zum Ankommen und Verweilen. Ungezwungen, warm und stilvoll – genießen Sie gute Gespräche und exzellentes Essen in einem Ambiente, das sich wie ein zweites Zuhause anfühlt.
-                    </div>
+                <!-- Detailed Wine & Glass Line Art -->
+                <div class="mt-6 flex justify-center md:justify-end">
+                    <svg width="180" height="90" viewBox="0 0 180 90" fill="none" stroke="#f4166b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Wine Bottle -->
+                        <path d="M 45 85 L 45 40 C 45 32 52 25 55 20 L 55 10 L 65 10 L 65 20 C 68 25 75 32 75 40 L 75 85 Z" />
+                        <line x1="55" y1="10" x2="65" y2="10" stroke-width="3" />
+                        <rect x="49" y="48" width="22" height="25" rx="2" stroke-width="2" />
+                        <!-- Wine Glass -->
+                        <path d="M 110 25 C 110 50 140 50 140 25 Z" />
+                        <line x1="125" y1="50" x2="125" y2="80" stroke-width="3" />
+                        <line x1="110" y1="80" x2="140" y2="80" stroke-width="3" />
+                        <path d="M 114 36 C 120 40 130 40 136 36" stroke-width="1.8" stroke-dasharray="2 2" />
+                        <!-- Sparkles -->
+                        <path d="M 92 30 L 92 38 M 88 34 L 96 34" stroke-width="2" />
+                        <path d="M 152 20 L 152 26 M 149 23 L 155 23" stroke-width="2" />
+                    </svg>
                 </div>
             </div>
+        </section>
+
+        <!-- Divider -->
+        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+
+        <!-- Section 3: KÜCHE – Image RIGHT, Text LEFT -->
+        <section class="flex flex-col md:flex-row items-center gap-8 md:gap-12 py-4">
+            
+            <!-- Left Text -->
+            <div class="flex-1 text-center md:text-left px-4 order-2 md:order-1">
+                <h2 class="font-fredoka text-4xl md:text-5xl text-[#f4166b] mb-4">
+                    KÜCHE
+                </h2>
+                <p class="text-[#f4166b] text-base md:text-lg font-semibold uppercase leading-relaxed max-w-xl mx-auto md:mx-0">
+                    UNSERE KÜCHE IST DAS HERZ DES HAUSES. HIER ENTSTEHEN MIT LEIDENSCHAFT UND HANDWERKLICHEM KÖNNEN GERICHTE, DIE ERINNERUNGEN SCHAFFEN. JEDER HANDGRIFF SITZT, JEDE ZUTAT WIRD ZELEBRIERT – FÜR EIN GESCHMACKSERLEBNIS DER BESONDEREN ART.
+                </p>
+                <!-- Detailed Chef Hat & Utensils Line Art -->
+                <div class="mt-6 flex justify-center md:justify-start">
+                    <svg width="180" height="90" viewBox="0 0 180 90" fill="none" stroke="#f4166b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Chef Hat -->
+                        <path d="M 60 55 C 45 55 42 40 52 32 C 45 22 60 10 75 18 C 85 8 105 8 115 18 C 130 10 145 22 138 32 C 148 40 145 55 130 55 Z" />
+                        <rect x="62" y="55" width="66" height="18" rx="3" stroke-width="2.5" />
+                        <line x1="72" y1="58" x2="72" y2="70" stroke-width="1.8" />
+                        <line x1="95" y1="58" x2="95" y2="70" stroke-width="1.8" />
+                        <line x1="118" y1="58" x2="118" y2="70" stroke-width="1.8" />
+                        <!-- Crossed Whisk & Spatula Behind -->
+                        <path d="M 25 20 L 50 45 M 25 20 C 18 25 28 35 33 30" stroke-width="2" />
+                        <path d="M 165 20 L 140 45" stroke-width="2" />
+                        <rect x="155" y="12" width="12" height="18" rx="2" transform="rotate(45 155 12)" stroke-width="2" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Right Carousel -->
+            <div class="flex-1 w-full md:max-w-lg mx-auto md:mx-0 order-1 md:order-2">
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item">
+                            <img src="images/5.jpeg" alt="Küchenarbeit">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/6.jpeg" alt="Kochkunst">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/7.jpeg" alt="Plating">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+
+        <!-- Section 4: EVENTS SECTION (Date Announcement Style) -->
+        <section id="events" class="py-6 px-2 md:px-4">
+            <div class="text-center mb-12">
+                <h2 class="font-fredoka text-4xl md:text-5xl uppercase tracking-tight text-[#f4166b]">EVENTS & TERMINE</h2>
+                <p class="text-[#f4166b] font-medium text-lg mt-3 max-w-xl mx-auto">AKTUELLE TERMINE UND BESONDERE HIGHLIGHTS AM CHIEMSEE</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-[#f4166b]">
+                
+                <!-- Event 1 -->
+                <div class="p-6 rounded-lg bg-[#e7dccf] flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-fredoka text-2xl uppercase mb-2">DIE KITCHEN MACHT SOMMERPAUSE</h3>
+                        <p class="text-sm font-semibold uppercase leading-relaxed mb-4">
+                            WIR TANKEN NEUE ENERGIE UND INSPIRATION FÜR SIE. AB DEM 19. SEPTEMBER SIND WIR WIEDER WIE GEWOHNT FÜR SIE DA.
+                        </p>
+                    </div>
+                    <span class="font-fredoka text-xl uppercase tracking-wide opacity-90">7. - 18. SEPTEMBER</span>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="p-6 rounded-lg bg-[#e7dccf] flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-fredoka text-2xl uppercase mb-2">HERBST-SPECIAL & WEINABEND</h3>
+                        <p class="text-sm font-semibold uppercase leading-relaxed mb-4">
+                            EXKLUSIVES 5-GÄNGE-MENÜ MIT REGIONALEM WILD UND CORRESPONDIERENDEN WEINEN AUF UNSERER SONNENTERRASSE.
+                        </p>
+                    </div>
+                    <span class="font-fredoka text-xl uppercase tracking-wide opacity-90">02. OKTOBER</span>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="p-6 rounded-lg bg-[#e7dccf] flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-fredoka text-2xl uppercase mb-2">CHIEMGAUER BBQ NIGHT</h3>
+                        <p class="text-sm font-semibold uppercase leading-relaxed mb-4">
+                            LIVE-COOKING UND SMOKER-SPECIALS AN UNSERER OUTDOOR-STATION MIT REGIONALEN SPEZIALITÄTEN UND LIVE-MUSIK.
+                        </p>
+                    </div>
+                    <span class="font-fredoka text-xl uppercase tracking-wide opacity-90">24. OKTOBER</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <hr class="border-t-4 border-[#f4166b] my-12 opacity-60">
+
+        <!-- Section 5: GALLERY WITH FOLLOW BUTTON -->
+        <section class="py-8 px-4 text-center">
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-8">
+    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/8.jpeg')">
+        <img src="images/8.jpeg" alt="Gallery Image 1" class="w-full h-32 md:h-40 object-cover">
+    </div>
+    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/9.jpeg')">
+        <img src="images/9.jpeg" alt="Gallery Image 2" class="w-full h-32 md:h-40 object-cover">
+    </div>
+    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/10.jpeg')">
+        <img src="images/10.jpeg" alt="Gallery Image 3" class="w-full h-32 md:h-40 object-cover">
+    </div>
+    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/11.jpeg')">
+        <img src="images/11.jpeg" alt="Gallery Image 4" class="w-full h-32 md:h-40 object-cover">
+    </div>
+    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('images/12.jpeg')">
+        <img src="images/12.jpeg" alt="Gallery Image 5" class="w-full h-32 md:h-40 object-cover">
+    </div>
+    <div class="overflow-hidden rounded cursor-pointer border-2 border-[#f4166b] transition-transform duration-200 hover:scale-105" onclick="openLightbox('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80" alt="Gallery Image 6" class="w-full h-32 md:h-40 object-cover">
+    </div>
+</div>
+
+            <!-- Follow Us Button -->
+            <div class="mt-6">
+                <a href="https://www.instagram.com/chiemsee_kitchen/?hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#f4166b] text-[#e7dccf] font-fredoka uppercase text-lg px-8 py-3 rounded-full hover:opacity-90 transition-opacity shadow-md">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    Folge Uns Auf Instagram
+                </a>
+            </div>
+
+            <!-- Lightbox Pop-Up Modal -->
+            <div id="image-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex justify-center items-center p-4" onclick="closeLightbox()">
+                <div class="relative max-w-4xl w-full flex justify-center" onclick="event.stopPropagation()">
+                    <button class="absolute -top-10 right-0 text-white text-3xl font-bold hover:opacity-80" onclick="closeLightbox()">&times;</button>
+                    <img id="modal-image" src="" alt="Pop-up Image" class="max-h-[85vh] w-auto max-w-full rounded border-2 border-[#f4166b] object-contain">
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Fully Flush Edge-to-Edge Footer with Wave at Absolute Bottom -->
+    <footer class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-[#f4166b] text-[#e7dccf] pt-12 pb-0 mt-12 mb-0 overflow-hidden shadow-[0_50vh_0_50vh_#f4166b] flex flex-col justify-between">
+        
+        <!-- 3 Columns Layout -->
+        <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-6 md:px-12 mb-8">
+            
+            <!-- Column 1: Contact -->
+            <div class="space-y-2">
+                <h3 class="font-fredoka text-2xl md:text-3xl uppercase tracking-wider mb-4">KONTAKT</h3>
+                <p class="text-sm font-bold uppercase tracking-wide">TELEFON</p>
+                <p class="text-base font-light mb-2">0152 261 561 57</p>
+                <p class="text-sm font-bold uppercase tracking-wide">E-MAIL</p>
+                <p class="text-base font-light">hallo@chiemsee-kitchen.de</p>
+            </div>
+
+            <!-- Column 2: Opening Hours -->
+            <div class="space-y-2">
+                <h3 class="font-fredoka text-2xl md:text-3xl uppercase tracking-wider mb-4">ÖFFNUNGSZEITEN</h3>
+                <p class="text-sm font-bold uppercase tracking-wide">MO – FR</p>
+                <p class="text-base font-light mb-2">11:30 – 22:00 UHR</p>
+                <p class="text-sm font-bold uppercase tracking-wide">SA</p>
+                <p class="text-base font-light">10:00 – 23:00 UHR</p>
+            </div>
+
+            <!-- Column 3: Location -->
+            <div class="space-y-2">
+                <h3 class="font-fredoka text-2xl md:text-3xl uppercase tracking-wider mb-4">STANDORT</h3>
+                <p class="text-base font-light">PRIEN AM CHIEMSEE,</p>
+                <p class="text-sm font-bold uppercase tracking-wide mt-2">DEUTSCHLAND</p>
+            </div>
+
         </div>
 
-        <div id="image-scroll-trigger" class="relative w-full h-[300vh]">
-            <div class="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-                <div class="z-40 text-center max-w-2xl px-6 mb-6">
-                    <p class="text-zinc-200 text-base sm:text-xl leading-relaxed font-light">
-                        Handverlesene regionale Zutaten, direkt von heimischen Höfen mit Liebe und Sorgfalt zubereitet.
-                    </p>
-                </div>
-
-                <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-0 items-center justify-between">
-                    <div id="edge-sq-1" class="edge-sq-card aspect-square w-full rounded-none overflow-hidden relative border-none shadow-none">
-                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80" alt="Gourmet Dish Left" class="w-full h-full object-cover"/>
-                        <div class="absolute inset-0 bg-black/30"></div>
-                    </div>
-
-                    <div id="edge-sq-2" class="edge-sq-card aspect-square w-full rounded-none overflow-hidden relative border-none shadow-none">
-                        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1200&q=80" alt="Gourmet Dish Center" class="w-full h-full object-cover"/>
-                        <div class="absolute inset-0 bg-black/30"></div>
-                    </div>
-
-                    <div id="edge-sq-3" class="edge-sq-card aspect-square w-full rounded-none overflow-hidden relative border-none shadow-none">
-                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80" alt="Gourmet Dish Right" class="w-full h-full object-cover"/>
-                        <div class="absolute inset-0 bg-black/30"></div>
-                    </div>
-                </div>
-            </div>
+        <!-- Copyright Info -->
+        <div class="w-full text-center text-xs font-light uppercase tracking-widest mb-4 opacity-80 px-4">
+            &copy; 2026 CHIEMSEE KITCHEN. ALLE RECHTE VORBEHALTEN.
         </div>
 
-        <div id="menu-section" class="w-full max-w-5xl mx-auto px-6 py-32 z-30 relative">
-            <div class="text-center mb-20 menu-reveal-item">
-                <h2 class="text-xs uppercase tracking-[0.4em] text-zinc-500 mb-2">Auszug Aus Unserer Karte</h2>
-                <h3 class="text-4xl sm:text-5xl font-bold tracking-wide text-brand">SPEISEKARTE</h3>
-            </div>
-
-            <div class="mb-20">
-                <h4 class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-8 border-b border-zinc-800 pb-2 menu-reveal-item">VORSPEISEN</h4>
-                <div class="menu-list flex flex-col gap-6">
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Geräucherte Chiemsee-Forelle</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">18.50 €</span>
-                    </div>
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Tatar vom Bayerischen Weiderind</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">21.00 €</span>
-                    </div>
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Cremiges Kürbisschaumsüppchen</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">12.50 €</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-20">
-                <h4 class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-8 border-b border-zinc-800 pb-2 menu-reveal-item">HAUPTSPEISEN</h4>
-                <div class="menu-list flex flex-col gap-6">
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Geschmorte Ochsenbäckchen</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">34.00 €</span>
-                    </div>
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Gebratenes Saiblingsfilet</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">29.50 €</span>
-                    </div>
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Hausgemachte Waldpilz-Ravioli</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">24.00 €</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-12">
-                <h4 class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-8 border-b border-zinc-800 pb-2 menu-reveal-item">DESSERTS</h4>
-                <div class="menu-list flex flex-col gap-6">
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Lauwarmer Topfenknödel</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">11.50 €</span>
-                    </div>
-                    <div class="menu-row menu-reveal-item flex justify-between items-baseline py-4 cursor-pointer" data-cursor-text="PROBIEREN">
-                        <span class="menu-title text-xl sm:text-2xl font-light text-zinc-200">Dunkles Schokoladen-Mousse</span>
-                        <span class="text-xl sm:text-2xl font-light text-brand">13.00 €</span>
-                    </div>
-                </div>
-            </div>
+        <!-- Edge-to-Edge SVG Decorative Wave Lowered to Very Bottom Edge -->
+        <div class="w-full leading-none p-0 m-0">
+            <svg class="w-full h-auto max-h-28 fill-[#e7dccf] block" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,40 L1200,120 L0,120 Z" opacity="0.3"></path>
+                <path d="M0,30 C300,100 500,10 700,70 C900,130 1100,20 1200,60 L1200,120 L0,120 Z" opacity="0.5"></path>
+                <path d="M0,60 C200,120 400,40 600,90 C800,140 1000,50 1200,80 L1200,120 L0,120 Z"></path>
+            </svg>
         </div>
 
-        <div id="events-section" class="w-full py-28 relative z-30 overflow-hidden">
-            <div class="text-center mb-16 px-6">
-                <h2 class="text-xs uppercase tracking-[0.4em] text-zinc-500 mb-2">Erlebnisse & Abende</h2>
-                <h3 class="text-4xl sm:text-5xl font-bold tracking-wide text-brand">KOMMENDE EVENTS</h3>
-            </div>
-
-            <div class="w-full overflow-hidden">
-                <div id="events-track" class="infinite-track-container">
-                    <div class="flex gap-8 pr-8">
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">15. OKTOBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">WINE & DINE NIGHT</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Ein exklusives 5-Gänge-Menü begleitet von erlesenen Weinen aus der Region.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">RESERVIERUNG OFFEN</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">28. OKTOBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">CHEF'S TABLE SPECIAL</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Blicken Sie unserem Küchenteam über die Schulter und genießen Sie ein spontanes Tasting-Menü.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">WENIGE PLÄTZE</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">12. NOVEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">JAZZ & CULINARY</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Smooth Jazz Live-Performance kombiniert mit feinsten kulinarischen Entdeckungen.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">JETZT BUCHEN</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">25. NOVEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">WILD & WALD TASTING</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Herbstliche Spezialitäten aus heimischen Wäldern, veredelt von unserem Küchenchef.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">RESERVIERUNG OFFEN</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">05. DEZEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">CANDLELIGHT SOULFOOD</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Romantischer Abend bei Kerzenschein mit exklusivem Überraschungs-Menü.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">WENIGE PLÄTZE</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">31. DEZEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">SILVESTER GALA 2026</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Feiern Sie den Jahreswechsel mit einem fulminanten 7-Gänge Gourmet-Dinner.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">JETZT BUCHEN</div>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-8 pr-8" aria-hidden="true">
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">15. OKTOBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">WINE & DINE NIGHT</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Ein exklusives 5-Gänge-Menü begleitet von erlesenen Weinen aus der Region.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">RESERVIERUNG OFFEN</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">28. OKTOBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">CHEF'S TABLE SPECIAL</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Blicken Sie unserem Küchenteam über die Schulter und genießen Sie ein spontanes Tasting-Menü.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">WENIGE PLÄTZE</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">12. NOVEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">JAZZ & CULINARY</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Smooth Jazz Live-Performance kombiniert mit feinsten kulinarischen Entdeckungen.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">JETZT BUCHEN</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">25. NOVEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">WILD & WALD TASTING</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Herbstliche Spezialitäten aus heimischen Wäldern, veredelt von unserem Küchenchef.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">RESERVIERUNG OFFEN</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">05. DEZEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">CANDLELIGHT SOULFOOD</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Romantischer Abend bei Kerzenschein mit exklusivem Überraschungs-Menü.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">WENIGE PLÄTZE</div>
-                        </div>
-
-                        <div class="event-pink-card p-8 rounded-none w-[320px] sm:w-[380px] shrink-0 flex flex-col justify-between h-[360px]" data-cursor-text="ENTDECKEN">
-                            <div>
-                                <span class="text-xs font-semibold tracking-widest text-white/80 uppercase">31. DEZEMBER 2026</span>
-                                <h4 class="text-2xl font-bold text-white mt-3 mb-4">SILVESTER GALA 2026</h4>
-                                <p class="text-sm text-white/90 leading-relaxed font-light">Feiern Sie den Jahreswechsel mit einem fulminanten 7-Gänge Gourmet-Dinner.</p>
-                            </div>
-                            <div class="text-xs font-bold tracking-widest text-white uppercase border-t border-white/30 pt-4">JETZT BUCHEN</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <footer class="w-full pt-20 pb-12 px-6 sm:px-12 relative z-30">
-            <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-12 items-start justify-between">
-                <div class="text-left">
-                    <h4 class="text-xs font-bold uppercase tracking-[0.3em] text-brand mb-6">KONTAKT & ADRESSE</h4>
-                    <address class="not-italic text-sm text-zinc-300 leading-relaxed flex flex-col gap-2 font-light">
-                        <p>Seestraße 12, 83209 Prien am Chiemsee</p>
-                        <p class="pt-1"><a href="tel:015226156157" class="hover:text-brand transition-colors">0152 261 561 57</a></p>
-                        <p><a href="mailto:hallo@chiemsee-kitchen.de" class="hover:text-brand transition-colors">hallo@chiemsee-kitchen.de</a></p>
-                    </address>
-                </div>
-
-                <div class="text-center flex flex-col items-center justify-center">
-                    <h4 class="text-xs font-bold uppercase tracking-[0.3em] text-brand mb-6">WILLKOMMEN</h4>
-                    <p class="text-sm sm:text-base text-zinc-300 max-w-sm leading-relaxed font-light">
-                        Wir freuen uns darauf, Sie bald persönlich bei uns am Chiemsee begrüßen und kulinarisch verwöhnen zu dürfen.
-                    </p>
-                </div>
-
-                <div class="text-right">
-                    <h4 class="text-xs font-bold uppercase tracking-[0.3em] text-brand mb-6">ÖFFNUNGSZEITEN</h4>
-                    <div class="text-sm text-zinc-300 leading-relaxed flex flex-col gap-2 font-light">
-                        <p><span class="text-zinc-500">Mi – Fr:</span> 17:00 – 23:00 Uhr</p>
-                        <p><span class="text-zinc-500">Sa – So:</span> 12:00 – 23:00 Uhr</p>
-                        <p><span class="text-zinc-500">Mo & Di:</span> Ruhetag</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-20 flex flex-col sm:flex-row justify-between items-center text-xs text-zinc-600 gap-4">
-                <p>&copy; 2026 Chiemsee Kitchen. Alle Rechte vorbehalten.</p>
-                <a href="/privacy-policy/" class="hover:text-brand transition-colors">Datenschutzerklärung & Impressum</a>
-            </div>
-        </footer>
-    </section>
+    </footer>
 
     <script>
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-
-    const cursor = document.getElementById('custom-cursor');
-    const follower = document.getElementById('cursor-follower');
-    const heroCircle = document.getElementById('menu-circle');
-    const brandLogo = document.getElementById('brand-logo');
-    const heroSection = document.getElementById('hero-section');
-    const mainSection = document.getElementById('main-section');
-    const mainQuote = document.getElementById('main-quote');
-    const threeTitles = document.getElementById('three-titles');
-    const titleBtns = document.querySelectorAll('.title-btn');
-
-    const sq1 = document.getElementById('edge-sq-1');
-    const sq2 = document.getElementById('edge-sq-2');
-    const sq3 = document.getElementById('edge-sq-3');
-    const scrollTrigger = document.getElementById('image-scroll-trigger');
-
-    const eventsSection = document.getElementById('events-section');
-    const eventsTrack = document.getElementById('events-track');
-    const pinkCards = document.querySelectorAll('.event-pink-card');
-    let eventsAnimated = false;
-
-    const cookieIconBtn = document.getElementById('cookie-icon-btn');
-    const cookieBanner = document.getElementById('cookie-banner');
-    const acceptCookies = document.getElementById('accept-cookies');
-    const settingsCookies = document.getElementById('settings-cookies');
-
-    let mouseX = 0, mouseY = 0;
-    let followerX = 0, followerY = 0;
-
-    if (!isTouchDevice) {
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            if (cursor) {
-                cursor.style.left = `${mouseX}px`;
-                cursor.style.top = `${mouseY}px`;
-            }
-        });
-
-        function animateFollower() {
-            followerX += (mouseX - followerX) * 0.15;
-            followerY += (mouseY - followerY) * 0.15;
-            
-            if (follower) {
-                follower.style.left = `${followerX}px`;
-                follower.style.top = `${followerY}px`;
-            }
-            
-            requestAnimationFrame(animateFollower);
+        function openLightbox(src) {
+            document.getElementById('modal-image').src = src;
+            document.getElementById('image-modal').classList.remove('hidden');
         }
-        animateFollower();
-    }
 
-    function bindCursorEvents(element, text) {
-        if (!element || isTouchDevice) return;
-        
-        element.addEventListener('mouseenter', () => {
-            if (cursor) cursor.setAttribute('data-cursor-text', text);
-            document.body.classList.add('hovering-interactive');
+        function closeLightbox() {
+            document.getElementById('image-modal').classList.add('hidden');
+            document.getElementById('modal-image').src = '';
+        }
+
+        // Universal Carousel Logic
+        document.querySelectorAll('.carousel-inner').forEach((inner) => {
+            const items = inner.querySelectorAll('.carousel-item');
+            const totalItems = items.length;
+            let currentIndex = 0;
+
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalItems;
+                inner.style.transform = `translateX(${-currentIndex * 100}%)`;
+            }, 4000);
         });
-        element.addEventListener('mouseleave', () => {
-            document.body.classList.remove('hovering-interactive');
-        });
-    }
+    </script>
 
-    bindCursorEvents(heroCircle, 'SPEISEKARTE');
-    bindCursorEvents(cookieIconBtn, 'COOKIES');
-    bindCursorEvents(acceptCookies, 'ZUSTIMMEN');
-    bindCursorEvents(settingsCookies, 'ANPASSEN');
-
-    titleBtns.forEach(btn => {
-        bindCursorEvents(btn, btn.getAttribute('data-cursor-text') || 'ÖFFNEN');
-    });
-
-    document.querySelectorAll('.menu-row').forEach(row => {
-        bindCursorEvents(row, row.getAttribute('data-cursor-text') || 'PROBIEREN');
-    });
-
-    pinkCards.forEach(card => {
-        bindCursorEvents(card, card.getAttribute('data-cursor-text') || 'ENTDECKEN');
-    });
-
-    if (cookieIconBtn) {
-        cookieIconBtn.addEventListener('click', () => {
-            cookieIconBtn.classList.add('hidden');
-            cookieBanner.classList.remove('hidden');
-            setTimeout(() => {
-                cookieBanner.classList.remove('opacity-0');
-            }, 10);
-        });
-    }
-
-    function closeCookieBanner() {
-        if (!cookieBanner) return;
-        cookieBanner.classList.add('opacity-0');
-        setTimeout(() => {
-            cookieBanner.classList.add('hidden');
-            if (cookieIconBtn) cookieIconBtn.classList.remove('hidden');
-        }, 300);
-    }
-
-    if (acceptCookies) acceptCookies.addEventListener('click', closeCookieBanner);
-    if (settingsCookies) settingsCookies.addEventListener('click', closeCookieBanner);
-
-    if (heroCircle) {
-        heroCircle.addEventListener('click', () => {
-            document.body.classList.remove('hovering-interactive');
-            
-            heroSection.style.opacity = '0';
-            heroSection.style.pointerEvents = 'none';
-
-            setTimeout(() => {
-                heroSection.classList.add('hidden');
-                mainSection.classList.remove('hidden');
-                mainSection.classList.remove('pointer-events-none');
-                mainSection.style.opacity = '1';
-
-                setTimeout(() => {
-                    if (mainQuote) mainQuote.classList.add('fade-in-slow');
-                    setTimeout(() => {
-                        if (threeTitles) threeTitles.classList.add('fade-in-slow');
-                    }, 1400);
-                }, 400);
-            }, 800);
-        });
-    }
-
-    titleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetId = btn.getAttribute('data-target');
-            const targetEl = document.getElementById(targetId);
-            if (targetEl) targetEl.classList.toggle('open');
-        });
-    });
-
-    if (brandLogo) {
-        brandLogo.addEventListener('click', () => {
-            mainSection.style.opacity = '0';
-            mainSection.classList.add('pointer-events-none');
-            
-            setTimeout(() => {
-                mainSection.classList.add('hidden');
-                heroSection.classList.remove('hidden');
-                heroSection.style.opacity = '1';
-                heroSection.style.pointerEvents = 'auto';
-
-                if (mainQuote) mainQuote.classList.remove('fade-in-slow');
-                if (threeTitles) threeTitles.classList.remove('fade-in-slow');
-                document.querySelectorAll('.content-reveal').forEach(el => el.classList.remove('open'));
-            }, 600);
-        });
-    }
-
-    if (mainSection) {
-        mainSection.addEventListener('scroll', () => {
-            if (scrollTrigger && sq1 && sq2 && sq3) {
-                const triggerRect = scrollTrigger.getBoundingClientRect();
-                const sectionHeight = scrollTrigger.offsetHeight - window.innerHeight;
-                const scrollPosition = -triggerRect.top;
-                
-                if (scrollPosition >= 0) {
-                    const progress = Math.min(Math.max(scrollPosition / sectionHeight, 0), 1);
-
-                    if (progress > 0.05) sq1.classList.add('active');
-                    else sq1.classList.remove('active');
-
-                    if (progress > 0.38) sq2.classList.add('active');
-                    else sq2.classList.remove('active');
-
-                    if (progress > 0.70) sq3.classList.add('active');
-                    else sq3.classList.remove('active');
-                }
-            }
-
-            const menuItems = document.querySelectorAll('.menu-reveal-item');
-            menuItems.forEach(item => {
-                const rect = item.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.88) {
-                    item.classList.add('visible');
-                }
-            });
-
-            if (eventsSection && !eventsAnimated) {
-                const eventsRect = eventsSection.getBoundingClientRect();
-                if (eventsRect.top < window.innerHeight * 0.75) {
-                    eventsAnimated = true;
-
-                    if (pinkCards[0]) setTimeout(() => pinkCards[0].classList.add('revealed'), 0);
-                    if (pinkCards[1]) setTimeout(() => pinkCards[1].classList.add('revealed'), 300);
-                    if (pinkCards[2]) setTimeout(() => pinkCards[2].classList.add('revealed'), 600);
-
-                    for (let i = 3; i < pinkCards.length; i++) {
-                        pinkCards[i].classList.add('revealed');
-                    }
-
-                    setTimeout(() => {
-                        if (eventsTrack) eventsTrack.classList.add('animating');
-                    }, 1100);
-                }
-            }
-        });
-    }
-</script>
 </body>
 </html>
